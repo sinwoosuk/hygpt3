@@ -15,7 +15,7 @@ data = loader.load()
 
 # OpenAI Embedding 모델을 이용해서 Chunk를 Embedding 한후 Vector Store에 저장
 vectorstore = Chroma.from_documents(
-    documents=data, embedding=OpenAIEmbeddings()
+    documents=data, embedding=OpenAIEmbeddings(openai_api_key='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')
 )
 retriever = vectorstore.as_retriever()
 
@@ -38,7 +38,7 @@ rag_prompt_custom = PromptTemplate.from_template(template)
 # GPT-3.5 trurbo를 이용해서 LLM 설정
 from langchain.chat_models import ChatOpenAI
 
-llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
+llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0, openai_api_key='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')
 
 # RAG chain 설정
 from langchain.schema.runnable import RunnablePassthrough
