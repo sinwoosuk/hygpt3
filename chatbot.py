@@ -10,16 +10,12 @@ import streamlit as st
 from langchain_community.document_loaders.csv_loader import CSVLoader
 from langchain.document_loaders import DirectoryLoader
 
-OPENAI_KEY = "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"
-
-# CSV파일 불러오기
-# loader = DirectoryLoader("./hy", glob="*.csv", loader_cls=CSVLoader)
 loader = CSVLoader(file_path="hy/professor.csv", encoding="CP949")
 data = loader.load()
 
 # OpenAI Embedding 모델을 이용해서 Chunk를 Embedding 한후 Vector Store에 저장
 vectorstore = Chroma.from_documents(
-    documents=data, embedding=OpenAIEmbeddings(openai_api_key=OPENAI_KEY)
+    documents=data, embedding=OpenAIEmbeddings()
 )
 retriever = vectorstore.as_retriever()
 
@@ -42,7 +38,7 @@ rag_prompt_custom = PromptTemplate.from_template(template)
 # GPT-3.5 trurbo를 이용해서 LLM 설정
 from langchain.chat_models import ChatOpenAI
 
-llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0, openai_api_key=OPENAI_KEY)
+llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
 
 # RAG chain 설정
 from langchain.schema.runnable import RunnablePassthrough
